@@ -11,6 +11,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { getUser, setCurrentUser, setAvatar } from "../../redux/actions/userActions";
 import axios from "../../api/axios";
+import { GET_USER_IMAGE_URL } from "../../api/apiUrls";
 
 const UserPage = () => {
   const { id } = useParams();
@@ -18,6 +19,7 @@ const UserPage = () => {
   const colors = tokens(theme.palette.mode);
   const apiAddress = `user/${id}`;
   const { data, isLoading } = useDataFetching(apiAddress);
+  const {userAvatar, isImageLoading} = useDataFetching(`${GET_USER_IMAGE_URL}/${id}`);
   const [photoUrl, setPhotoUrl] = useState("");
   const { user, currentUser, avatarUrl } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -35,9 +37,17 @@ const UserPage = () => {
   ];
 
   useEffect(() => {
-    setPhotoUrl(avatarUrl);
-  }, [avatarUrl]);
-
+    if (avatarUrl) {
+      console.log("Redux avatar URL:", avatarUrl);
+      setPhotoUrl(avatarUrl);
+    } else if (userAvatar) {
+      console.log("User avatar URL:", userAvatar);
+      setPhotoUrl(userAvatar);
+    } else {
+      console.log("Fallback avatar URL");
+      setPhotoUrl("../../assets/profile.png"); // Set the default avatar URL or any other fallback URL
+    }
+  }, [avatarUrl, userAvatar, isImageLoading]);
   const handleAvatarHover = () => {
     setIsHovered(true);
   };
