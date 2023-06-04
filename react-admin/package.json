@@ -48,16 +48,16 @@
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   },
-  "scripts": {
-    "start": "set start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "link": "npm-run-all -s link:*",
-    "link:lib-self": "cd ./path-to-lib && npm link",
-    "link:lib-react": "cd ./path-to-lib && npm link ./path-to-app/node_modules/react ./path-to-app/node_modules/react-dom",
-    "link:app-to-lib": "npm link library-name"
-  },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject",
+      "link": "npm-run-all -s link:*",
+      "link:lib-self": "cd ./path-to-lib && npm link",
+      "link:lib-react": "cd ./path-to-lib && npm link ./path-to-app/node_modules/react ./path-to-app/node_modules/react-dom",
+      "link:app-to-lib": "npm link library-name"
+    },
   "eslintConfig": {
     "extends": [
       "react-app",
