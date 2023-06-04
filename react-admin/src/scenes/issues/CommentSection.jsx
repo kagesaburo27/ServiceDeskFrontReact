@@ -1,5 +1,5 @@
 import { Box, Typography, TextField, Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../../api/axios";
 import useDataFetching from "../../hooks/useDataFetching";
 import { tokens } from "../../theme";
@@ -9,18 +9,39 @@ const CommentSection = (id) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [comment, setComment] = useState("");
-  const { data: comments, isLoading: areCommentsLoading } = useDataFetching(
-    `/comment/task/${id.id}`
-  );
+  const [comments, setComments] = useState([]);
+  const { isLoading: areCommentsLoading } = useDataFetching(`/comment/task/${id.id}`);
 
+  // Function to fetch comments
+  const fetchComments = () => {
+    axios.get(`/comment/task/${id.id}`)
+      .then((response) => {
+        const fetchedComments = response.data;
+        // Sort comments by createdDate in descending order
+        const sortedComments = fetchedComments.sort((a, b) => {
+          const dateA = new Date(a.createdDate);
+          const dateB = new Date(b.createdDate);
+          return dateB - dateA;
+        });
+        setComments(sortedComments);
+      })
+      .catch((error) => {
+        console.error("Error fetching comments:", error);
+      });
+  };
+  useEffect(() => {
+    // Fetch comments initially
+    fetchComments();
+  }, []);
   // Function to handle comment submission
-  const handleSubmit = () => {
+  const handleSubmit = (a) => {
     const newComment = {
       content: comment,
       taskId: id.id,
     };
 
     axios.post("/comment/create", newComment);
+    fetchComments();
   };
 
   return (
