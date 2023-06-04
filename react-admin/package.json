@@ -1,0 +1,79 @@
+{
+  "name": "react-admin",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@fullcalendar/core": "^6.1.6",
+    "@fullcalendar/daygrid": "^6.1.6",
+    "@fullcalendar/interaction": "^6.1.6",
+    "@fullcalendar/list": "^6.1.6",
+    "@fullcalendar/react": "^6.1.6",
+    "@fullcalendar/timegrid": "^6.1.6",
+    "@hookform/resolvers": "^3.1.0",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/lab": "^5.0.0-alpha.131",
+    "@mui/material": "^5.13.2",
+    "@mui/styled-engine-sc": "^5.12.0",
+    "@mui/x-data-grid": "^6.3.0",
+    "@mui/x-date-pickers": "^6.5.0",
+    "@nivo/bar": "^0.83.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.4.0",
+    "dayjs": "^1.11.7",
+    "formik": "^2.2.9",
+    "i18next": "^22.5.0",
+    "jwt-decode": "^3.1.2",
+    "lottie-react": "^2.4.0",
+    "momentjs": "^2.0.0",
+    "primereact": "^9.4.0",
+    "react": "^18.2.0",
+    "react-cookie": "^4.1.1",
+    "react-dom": "^18.2.0",
+    "react-formal": "^2.7.0",
+    "react-formal-inputs": "^2.1.1",
+    "react-hook-form": "^7.43.9",
+    "react-i18next": "^12.3.1",
+    "react-moment": "^1.1.3",
+    "react-pro-sidebar": "^0.7.1",
+    "react-quill": "^2.0.0",
+    "react-redux": "^8.0.7",
+    "react-router-dom": "^6.11.1",
+    "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
+  },
+  "scripts": {
+    "start": "set HTTPS=true&&set SSL_CRT_FILE=C:/Windows/System32/cert.crt&&set SSL_KEY_FILE=C:/Windows/System32/cert.key&&react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "link": "npm-run-all -s link:*",
+    "link:lib-self": "cd ./path-to-lib && npm link",
+    "link:lib-react": "cd ./path-to-lib && npm link ./path-to-app/node_modules/react ./path-to-app/node_modules/react-dom",
+    "link:app-to-lib": "npm link library-name"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

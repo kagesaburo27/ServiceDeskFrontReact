@@ -1,0 +1,50 @@
+{
+  "navber": {
+    "search": "Іздеу",
+    "darkMode": "Қара көрнек",
+    "lightMode": "Жарықты көрнек",
+    "notifications": "Хабарландырулар",
+    "settings": "Параметрлер",
+    "profile": "Профиль"
+  },
+  "sidebar": {
+    "dashboard": "Башбаған",
+    "manageTeam": "Командаңызды басқарыңыз",
+    "issuesList": "Мәселелер тізімі",
+    "projects": "Жобалар",
+    "calendar": "Күнтізбе",
+    "faqPage": "Көптеген сұрақтар",
+    "statistics": "Статистика",
+    "pieChart": "Пай диаграмма",
+    "lineChart": "Жол диаграмма"
+  },
+  "headers": {
+    "taskEditing": "Тапсырма өңдеу"
+  },
+  "labels": {
+    "author": "Автор",
+    "createdOn": "Жасалды",
+    "lastEditedOn": "Соңғы өңдеу",
+    "title": "Тақырып",
+    "projectId": "Проект ID",
+    "project": "Проект",
+    "description": "Сипаттама",
+    "deadline": "Орындау мерзімі",
+    "taskStatus": "Тапсырма мәртебесі",
+    "taskPriority": "Тапсырма қажеттілігі",
+    "taskType": "Тапсырма түрі",
+    "assignees": "Исполнители"
+  },
+  "buttons": {
+    "goBack": "Артқа",
+    "edit": "Өңдеу"
+  },
+  "errors": {
+    "titleRequired": "Тақырып көрсетілуі керек",
+    "descriptionRequired": "Сипаттама көрсетілуі керек",
+    "deadlineRequired": "Орындау мерзімін көрсетілуі керек"
+  },
+  "successMessages": {
+    "editSuccess": "Тапсырма сәтті өңделді"
+  }
+}

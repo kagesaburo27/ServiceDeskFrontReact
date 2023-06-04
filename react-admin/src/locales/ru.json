@@ -1,0 +1,50 @@
+{
+  "navbar": {
+    "search": "Поиск",
+    "darkMode": "Темный режим",
+    "lightMode": "Светлый режим",
+    "notifications": "Уведомления",
+    "settings": "Настройки",
+    "profile": "Профиль"
+  },
+  "sidebar": {
+    "dashboard": "Главная",
+    "manageTeam": "Управление командой",
+    "issuesList": "Список задач",
+    "projects": "Проекты",
+    "calendar": "Календарь",
+    "faqPage": "Страница с вопросами",
+    "statistics": "Статистика",
+    "pieChart": "Круговая диаграмма",
+    "lineChart": "Линейная диаграмма"
+  },
+  "headers": {
+    "taskEditing": "Редактирование задачи"
+  },
+  "labels": {
+    "author": "Автор",
+    "createdOn": "Создано",
+    "lastEditedOn": "Последнее редактирование",
+    "title": "Заголовок",
+    "projectId": "ID проекта",
+    "project": "Проект",
+    "description": "Описание",
+    "deadline": "Срок выполнения",
+    "taskStatus": "Статус задачи",
+    "taskPriority": "Приоритет задачи",
+    "taskType": "Тип задачи",
+    "assignees": "Исполнители"
+  },
+  "buttons": {
+    "goBack": "Назад",
+    "edit": "Редактировать"
+  },
+  "errors": {
+    "titleRequired": "Укажите заголовок",
+    "descriptionRequired": "Укажите описание",
+    "deadlineRequired": "Укажите срок выполнения"
+  },
+  "successMessages": {
+    "editSuccess": "Задача успешно отредактирована"
+  }
+}

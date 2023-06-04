@@ -1,0 +1,50 @@
+{
+  "navbar": {
+    "search": "Search",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "profile": "Profile"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "manageTeam": "Manage Team",
+    "issuesList": "Issues List",
+    "projects": "Projects",
+    "calendar": "Calendar",
+    "faqPage": "FAQ Page",
+    "statistics": "Statistics",
+    "pieChart": "Pie Chart",
+    "lineChart": "Line Chart"
+  },
+  "headers": {
+    "taskEditing": "Task Editing"
+  },
+  "labels": {
+    "author": "Author",
+    "createdOn": "Created On",
+    "lastEditedOn": "Last Edited On",
+    "title": "Title",
+    "projectId": "Project ID",
+    "project": "Project",
+    "description": "Description",
+    "deadline": "Deadline",
+    "taskStatus": "Task Status",
+    "taskPriority": "Task Priority",
+    "taskType": "Task Type",
+    "assignees": "Assignees"
+  },
+  "buttons": {
+    "goBack": "Go Back",
+    "edit": "Edit"
+  },
+  "errors": {
+    "titleRequired": "Please enter a title",
+    "descriptionRequired": "Please enter a description",
+    "deadlineRequired": "Please enter a deadline"
+  },
+  "successMessages": {
+    "editSuccess": "Task edited successfully"
+  }
+}
