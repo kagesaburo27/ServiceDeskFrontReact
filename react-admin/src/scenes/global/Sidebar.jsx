@@ -22,7 +22,7 @@ import { Skeleton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Loading from "../../components/reusable/loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentUser } from "../../redux/actions/userActions";
+import { setCurrentUser, setAvatar } from "../../redux/actions/userActions";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -47,6 +47,7 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [photoUrl, setPhotoUrl] = useState("");
   const { data: resp, isLoading: isRespLoading } =
     useDataFetching("/user/current");
   const { data: photo, isLoading: isPhotoLoading } =
@@ -56,7 +57,19 @@ const Sidebar = () => {
       dispatch(setCurrentUser(resp));
     }
   }, [resp, dispatch]);
+  // useEffect(() => {
+  //   if (photo) {
+  //     dispatch(setAvatar(photo.url));
+  //   }
+  // }, [photo, dispatch]);
   const { currentUser, avatarUrl } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (avatarUrl) {
+      setPhotoUrl(avatarUrl);
+    } else {
+      setPhotoUrl(photo.url); // Set the default avatar URL or any other fallback URL
+    }
+  }, [avatarUrl, photo]);
   return (
     <Box
       sx={{
@@ -132,7 +145,7 @@ const Sidebar = () => {
                         alt="profile-user"
                         width="100px"
                         height="100px"
-                        src={avatarUrl ? avatarUrl : "../../assets/profile.jpg"}
+                        src={ photoUrl }
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                       />
                       <Link to={`/user/${currentUser?.id}`} />

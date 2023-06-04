@@ -14,6 +14,7 @@ export const CREATE_PROJECTS_URL = '/project/create';
 
 export const CURRENT_USER_URL = '/user/current';
 export const CURRENT_USER_IMAGE_URL = '/image/my';
+export const GET_USER_IMAGE_URL = '/image/user';
 
 export const PROJECT_MEMBERS = '/userproject/project/';
 
