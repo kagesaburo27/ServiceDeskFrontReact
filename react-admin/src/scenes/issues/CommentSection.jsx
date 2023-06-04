@@ -41,6 +41,7 @@ const CommentSection = (id) => {
   }, []);
   // Function to handle comment submission
   const handleSubmit = (a) => {
+    
     const newComment = {
       content: comment,
       taskId: id.id,
@@ -66,7 +67,7 @@ const CommentSection = (id) => {
         sx={{
           marginBottom: "1rem",
           width: "50%",
-          backgroundColor: colors.primary[100],
+          backgroundColor: colors.grey[900],
           padding: "20px 30px",
           borderRadius: "10px",
         }}
@@ -81,7 +82,7 @@ const CommentSection = (id) => {
           margin="normal"
           sx={{ width: "100%" }}
         />
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button variant="contained"  disabled={!comment} onClick={handleSubmit}>
           Submit
         </Button>
       </Box>
@@ -91,7 +92,7 @@ const CommentSection = (id) => {
           sx={{
             marginBottom: "1rem",
             width: "50%",
-            backgroundColor: colors.primary[100],
+            backgroundColor: colors.grey[900],
             padding: "20px 30px",
             borderRadius: "10px",
           }}

@@ -62,7 +62,7 @@ const ViewIssueDetails = () => {
     display: "flex",
     marginBottom: "40px",
     borderRadius: "20px",
-    backgroundColor: colors.primary[100],
+    backgroundColor: colors.grey[900],
     border: `1px solid ${colors.primary[600]}`,
     justifyContent: "space-between",
   };
@@ -70,7 +70,7 @@ const ViewIssueDetails = () => {
     padding: "20px 30px",
     margin: "0 0 30px 0",
     borderRadius: "20px",
-    backgroundColor: colors.primary[100],
+    backgroundColor: colors.grey[900],
     border: `1px solid ${colors.primary[600]}`,
     justifyContent: "space-between",
     maxWidth: "30vw",

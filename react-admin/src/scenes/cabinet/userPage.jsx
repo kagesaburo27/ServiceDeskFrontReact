@@ -88,9 +88,6 @@ const UserPage = () => {
     dispatch(getUser(id)); // Dispatch the action to get user data
   }, [dispatch, id]);
 
-  useEffect(() => {
-    dispatch(setCurrentUser(data)); // Set the current user in the Redux state
-  }, [dispatch, data]);
 
   if (isLoading) {
     return <Loading />;
