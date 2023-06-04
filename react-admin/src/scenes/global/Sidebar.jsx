@@ -16,18 +16,18 @@ import PieChartOutlineOutlinedIcons from "@mui/icons-material/PieChartOutlineOut
 import TimelineOutlinedIcons from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcons from "@mui/icons-material/MenuOutlined";
 import { useRef } from "react";
-import ApiRoundedIcon from '@mui/icons-material/ApiRounded';
+import ApiRoundedIcon from "@mui/icons-material/ApiRounded";
 import useDataFetching from "../../hooks/useDataFetching";
 import { Skeleton } from "@mui/material";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import Loading from "../../components/reusable/loading/Loading";
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentUser } from '../../redux/actions/userActions';
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentUser } from "../../redux/actions/userActions";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  
+
   return (
     <MenuItem
       active={selected === title}
@@ -42,7 +42,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 };
 const Sidebar = () => {
   const { t } = useTranslation();
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -51,12 +51,12 @@ const Sidebar = () => {
     useDataFetching("/user/current");
   const { data: photo, isLoading: isPhotoLoading } =
     useDataFetching("/image/my");
-    useEffect(() => {
-      if (resp) {
-        dispatch(setCurrentUser(resp));
-      }
-    }, [resp, dispatch]);
-    const { currentUser, avatarUrl } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (resp) {
+      dispatch(setCurrentUser(resp));
+    }
+  }, [resp, dispatch]);
+  const { currentUser, avatarUrl } = useSelector((state) => state.user);
   return (
     <Box
       sx={{
@@ -108,10 +108,11 @@ const Sidebar = () => {
                   alignItems="center"
                   ml="15px"
                 >
-                  <img 
-                   width="150px"
-                   height="100px"
-                   src="../../assets/default-monochrome.svg"/>
+                  <img
+                    width="150px"
+                    height="100px"
+                    src="../../assets/default-monochrome.svg"
+                  />
                   <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcons />
                   </IconButton>
@@ -125,15 +126,18 @@ const Sidebar = () => {
                   {isPhotoLoading ? (
                     <Skeleton variant="circular" width={100} height={100} />
                   ) : (
-                    <img
-                      alt="profile-user"
-                      width="100px"
-                      height="100px"
-                      src={avatarUrl ? avatarUrl : "../../assets/profile.jpg"}
-                      style={{ cursor: "pointer", borderRadius: "50%" }}
-                    />
+                    <>
+                      
+                      <img
+                        alt="profile-user"
+                        width="100px"
+                        height="100px"
+                        src={avatarUrl ? avatarUrl : "../../assets/profile.jpg"}
+                        style={{ cursor: "pointer", borderRadius: "50%" }}
+                      />
+                      <Link to={`/user/${currentUser?.id}`} />
+                    </>
                   )}
-                  <Link to={`/user/${currentUser?.id}`} />
                 </Box>
                 <Box textAlign="center" m="0 10%">
                   <Typography
@@ -201,7 +205,6 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-
 
               <Typography
                 variant="h6"

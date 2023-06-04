@@ -10,6 +10,13 @@ import {
   DialogTitle,
   Snackbar,
   useTheme,
+  Box,
+  Typography,
+  Grid,
+  TextField,
+  Divider,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { useParams } from "react-router-dom";
@@ -21,18 +28,12 @@ import "react-quill/dist/quill.snow.css";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Skeleton } from "@mui/material";
-import {
-  Box,
-  Typography,
-  Grid,
-  Divider,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
+
 import { CURRENT_USER_URL } from "../../api/apiUrls";
 import CustomChip from "../../components/reusable/CustomChip";
 import axiosPrivate from "../../api/axios";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import CommentSection from "./CommentSection";
 
 const ViewIssueDetails = () => {
   const theme = useTheme();
@@ -189,6 +190,7 @@ const ViewIssueDetails = () => {
                 name="description"
                 value={issue?.description}
                 readOnly
+                width='100vw'
                 className="quill-editor"
                 modules={{ toolbar: false }}
               />
@@ -245,8 +247,7 @@ const ViewIssueDetails = () => {
           </Grid>
         </Box>
       </Box>
-
-      <Link to="/issues">Back to Issues</Link>
+      <CommentSection id={id} />
       {/* Delete Assignee Dialog */}
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>Delete Task</DialogTitle>
@@ -258,7 +259,6 @@ const ViewIssueDetails = () => {
           <Button onClick={handleTaskDeleteConfirm}>Delete</Button>
         </DialogActions>
       </Dialog>
-
       {/* Success Alert */}
       <Snackbar
         open={showAlert}

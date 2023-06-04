@@ -15,17 +15,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   CREATE_USER_URL,
   GET_ROLES_URL,
-  PROJECTS_URL,
+
 } from "../../api/apiUrls";
+import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 
 const CreateUser = () => {
-  const { data: projects, isLoading: areProjectsLoading } =
-    useDataFetching(PROJECTS_URL);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [loading, setLoading] = useState(false);
   const { data: roles, isLoading: areRolesLoading } =
     useDataFetching(GET_ROLES_URL);
-  console.log(projects);
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState();
+  const [alert, setAlert] =  useState({ message: "", severity: "success" });
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -77,20 +80,6 @@ const CreateUser = () => {
     resolver: yupResolver(validationSchema),
     defaultValues: taskDetails,
   });
-  const handleNameChange = () => {
-    const firstName = taskDetails.firstName;
-    const lastName = taskDetails.lastName;
-
-    if (firstName && lastName) {
-      const username = `${firstName}${lastName}`;
-      const email = `${username}@gmail.com`;
-      setValue("username", username);
-      setValue("email", email);
-    } else {
-      setValue("username", "");
-      setValue("email", "");
-    }
-  };
 
   const onSubmit = async (values) => {
     const formattedDate = moment(moment(values.birth)).format("YYYY/MM/DD");
@@ -98,18 +87,20 @@ const CreateUser = () => {
     const updatedValues = { ...values, birth: formattedDate };
     // Send the PUT request to the edit API
     try {
+      setLoading(true);
       const response = await axiosPrivate.post(CREATE_USER_URL, updatedValues);
-      console.log(values);
-      setAlert("The user successfully created");
-      setOpen(true);
+      console.log(response.data);
+      setLoading(false);
+      setAlert({ message: "The user was successfully created", severity: "success" });
+   setOpen(true);
     } catch (err) {
-      console.error(err);
-      setAlert(error);
+      setAlert({ message: err?.response?.data.message, severity: "error" });
+      setOpen(true);
+      setLoading(false);
     }
   };
 
   const style = {
-    backgroundColor: "white",
     borderRadius: 5,
     boxShadow: 24,
     padding: "2% 5%",
@@ -123,24 +114,25 @@ const CreateUser = () => {
           <FormInput
             label="First name"
             name="firstName"
+            error={errors.firstName?.message}
             control={control}
             {...register("firstName")}
-            onChange={handleNameChange}
             defaultValue={taskDetails.firstName}
             inputRef={register}
           />
           <FormInput
             label="Last name"
             name="lastName"
+            error={errors.lastName?.message}
             control={control}
             {...register("lastName")}
-            onChange={handleNameChange}
             defaultValue={taskDetails.lastName}
             inputRef={register}
           />
           <FormInput
             label="Password"
             name="password"
+            error={errors.password?.message}
             control={control}
             {...register("password")}
             defaultValue={taskDetails.password}
@@ -149,6 +141,7 @@ const CreateUser = () => {
           <FormInput
             label="Username"
             name="username"
+            error={errors.username?.message}
             control={control}
             {...register("username")}
             defaultValue={taskDetails.username}
@@ -157,6 +150,7 @@ const CreateUser = () => {
           <FormInput
             label="Email"
             name="email"
+            error={errors.email?.message}
             control={control}
             {...register("email")}
             defaultValue={taskDetails.email}
@@ -165,6 +159,7 @@ const CreateUser = () => {
           <FormInput
             label="Phone"
             name="phone"
+            error={errors.phone?.message}
             control={control}
             {...register("phone")}
             defaultValue={taskDetails.phone}
@@ -176,6 +171,7 @@ const CreateUser = () => {
             label="Roles"
             itemName="name"
             itemId="name"
+            error={errors.role?.message}
             multiple
             defaultValue={taskDetails.role}
             control={control}
@@ -185,17 +181,31 @@ const CreateUser = () => {
           <DateInput
             label="Birth"
             name="birth"
+            error={errors.birth?.message}
             control={control}
             {...register("birth")}
             defaultValue={moment(taskDetails.birth)}
             inputRef={register}
           />
-          <Button type="submit" severity="success" label="Create" />
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            loading={loading}
+            sx={{
+              backgroundColor: colors.primary[1],
+              marginTop: "30px",
+              width: "100%",
+              height: "60px",
+            }}
+          >
+            {" "}
+            Create
+          </LoadingButton>
         </form>
       </Box>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" action={action}>
-          {alert}
+        <Alert onClose={handleClose}  severity={alert.severity} action={action}>
+          {alert.message}
         </Alert>
       </Snackbar>
     </Box>
