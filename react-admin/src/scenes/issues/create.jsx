@@ -24,6 +24,7 @@ import ReactQuill from "react-quill";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import QuillEditor from "../../components/reusable/QuillEditor";
 const CREATE_TASK_URL = "/task/create";
 
 const Create = () => {
@@ -44,16 +45,20 @@ const Create = () => {
     taskStatus: "",
     taskPriority: "",
     taskType: "",
+    tags: "",
+    file: null, 
   };
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
+    description: Yup.string(),
     deadline: Yup.string().required("Deadline is required"),
+    tags: Yup.string().required("tags are required"),
     taskStatus: Yup.string().required("Task status is required"),
     taskPriority: Yup.string().required("Task priority is required"),
     taskType: Yup.string().required("Task type is required"),
     projectId: Yup.string().required("Project is required"),
-    assignee: Yup.array().required("Assignees are required"),
+    assignee: Yup.array().of(Yup.number().min(1)),
+    file: Yup.array().nullable(),
   });
   const { t } = useTranslation();
 
@@ -89,15 +94,30 @@ const Create = () => {
     defaultValues: taskDetails,
   });
   const onSubmit = async (values) => {
-
+    const tagsArray = values.tags.split(",").map((tag) => tag.trim());
+    console.log(tagsArray);
     const formattedDeadline = moment(moment(values.deadline)).format(
       "YYYY/MM/DD HH:mm:ss"
     );
-    const updatedValues = { ...values, deadline: formattedDeadline.toString()};
+    const updatedValues = {
+      ...values,
+      taskTags: tagsArray,
+      deadline: formattedDeadline.toString(),
+    };
     delete updatedValues.assignees;
-
+    const formData = new FormData();
+  for (const key in updatedValues) {
+    if (key === "file") {
+      const files = Array.from(updatedValues[key]);
+      files.forEach((file, index) => {
+        formData.append(`file[${index}]`, file);
+      });
+    } else {
+      formData.append(key, updatedValues[key]);
+    }
+  }
     try {
-      const response = await axiosPrivate.post(CREATE_TASK_URL, updatedValues, {
+      const response = await axiosPrivate.post(CREATE_TASK_URL, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -140,21 +160,11 @@ const Create = () => {
     fetchAssignees();
   }, [selectedProjectId]);
 
-  // useEffect(() => {
-  //   // Set assignees value when the assignees data changes
-  //   setValue("assignee", assignees.length > 0 ? assignees[0].id : "");
-  // }, [assignees, setValue]);
-
   const handleProjectChange = (event) => {
     const projectId = event.target.value;
     setSelectedProjectId(projectId);
     setValue("projectId", projectId);
   };
-
-  useEffect(() => {
-    // Set assignees value when the assignees data changes
-    setValue("assignees", assignees.length > 0 ? assignees[0].id : "");
-  }, [assignees, setValue]);
 
   const style = {
     position: "absolute",
@@ -185,13 +195,21 @@ const Create = () => {
             error={errors.title?.message}
             inputRef={register}
           />
-          <ReactQuill
-            theme="snow"
+          <QuillEditor
             name="description"
             error={errors.description?.message}
             value={getValues("description")}
             className="quill-editor"
             onChange={(value) => setValue("description", value)}
+          />
+          <FormInput
+            label="Tags"
+            name="tags"
+            control={control}
+            {...register("tags")}
+            defaultValue={taskDetails.tags}
+            error={errors.tags?.message}
+            inputRef={register}
           />
           <SelectForm
             id="taskStatus"
@@ -260,6 +278,15 @@ const Create = () => {
             {...register("deadline")}
             defaultValue={moment(taskDetails.deadline)}
             inputRef={register}
+          />
+          <input
+            type="file"
+            name="file"
+            onChange={(e) => {
+              const files = Array.from(e.target.files);
+              setValue("file", files);
+            }}
+            multiple
           />
           <Button type="submit" severity="success">
             Create new task

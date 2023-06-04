@@ -76,6 +76,21 @@ const ViewIssueDetails = () => {
     maxWidth: "30vw",
     minWidth: "15vw",
   };
+  const [files, setFiles] = useState([]);
+
+  // Function to fetch and set the list of files
+  const fetchFiles = useCallback(async () => {
+    try {
+      const response = await axiosPrivate.get(`/file/task/${id}`);
+      console.log(response)
+      setFiles(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id]);
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
   const handleTaskDelete = () => {
     setOpenDialog(true);
   };
@@ -190,7 +205,7 @@ const ViewIssueDetails = () => {
                 name="description"
                 value={issue?.description}
                 readOnly
-                width='100vw'
+                width="100vw"
                 className="quill-editor"
                 modules={{ toolbar: false }}
               />
@@ -246,6 +261,23 @@ const ViewIssueDetails = () => {
             </ListItem>
           </Grid>
         </Box>
+      </Box>
+      <Box>
+        <Typography variant="h2">Files</Typography>
+        {files && files?.map((file) => (
+          <Box key={file.id} display="flex" alignItems="center">
+            <Typography>{file.name}</Typography>
+            <Button
+              variant="outlined"
+              component="a"
+              href={file.url}
+              download
+              sx={{ ml: 1 }}
+            >
+              Download
+            </Button>
+          </Box>
+        ))}
       </Box>
       <CommentSection id={id} />
       {/* Delete Assignee Dialog */}

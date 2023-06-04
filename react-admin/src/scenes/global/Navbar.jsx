@@ -23,11 +23,10 @@ const Navbar = () => {
     i18n
       .changeLanguage(newLanguage)
       .then(() => {
-        // Language changed successfully
-        // You can perform any additional logic here
+
       })
       .catch((error) => {
-        // Handle error if language change fails
+
         console.error("Failed to change language:", error);
       });
   };
@@ -73,12 +72,6 @@ const Navbar = () => {
             <LightModeOutlinedIcons />
           )}
         </IconButton>
-        {/* <IconButton>
-          <NotificationsOutinedIcons />
-        </IconButton>
-        <IconButton>
-          <SettingsOutlinedIcons />
-        </IconButton> */}
         <Select
           value={i18n.language}
           onChange={handleLanguageChange}
