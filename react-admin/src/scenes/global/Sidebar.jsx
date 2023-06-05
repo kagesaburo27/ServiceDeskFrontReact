@@ -199,13 +199,13 @@ const Sidebar = () => {
                 selected={selected}
                 setSelected={setSelected}
               />
-              <Item
+              {/* <Item
                 title={t("sidebar.faqPage")}
                 to="faq"
                 icon={<HelpOutlinedIcons />}
                 selected={selected}
                 setSelected={setSelected}
-              />
+              /> */}
               <Item
                 title="API"
                 to="api"
