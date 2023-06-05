@@ -98,7 +98,10 @@ const Dashboard = () => {
       <Stack width="50vw" sx={{ backgroundColor: colors }} spacing={2}>
         {filteredTasks.length > 0 ? (
           filteredTasks.map((task) => (
-            <Link to={`/issue/${task.taskId}`}>
+            <Link
+              to={`/issue/${task.taskId}`}
+              style={{ textDecoration: "none" }}
+            >
               <Box
                 key={task.taskId}
                 borderRadius="10px"

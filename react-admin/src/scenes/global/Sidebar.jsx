@@ -22,6 +22,7 @@ import { Skeleton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Loading from "../../components/reusable/loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
+import SvgIcon from "@mui/material";
 import { setCurrentUser, getAvatar } from "../../redux/actions/userActions";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -47,7 +48,7 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
-  const [photoUrl, setPhotoUrl] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("../../assets/profile.jpg");
   const { data: resp, isLoading: isRespLoading } =
     useDataFetching("/user/current");
   const { data: photo, isLoading: isPhotoLoading } =
@@ -59,9 +60,16 @@ const Sidebar = () => {
   }, [resp, dispatch]);
   const { currentUser, avatarUrl } = useSelector((state) => state.user);
   useEffect(() => {
+    // Change the logo color based on the mode
+    const logoElement = document.getElementById("sidebar-logo");
+    if (logoElement) {
+      logoElement.style.fill = colors.grey[100];
+    }
+  }, [colors.grey]);
+  useEffect(() => {
     if (avatarUrl) {
       setPhotoUrl(avatarUrl);
-    } else {
+    } else if (photo?.data) {
       setPhotoUrl(photo.url); // Set the default avatar URL or any other fallback URL
     }
   }, [avatarUrl, photo]);
@@ -74,7 +82,7 @@ const Sidebar = () => {
         zIndex: "101",
         boxShadow: "2",
         "& .pro-sidebar-inner": {
-          background: `${colors.primary[400]} !important`,
+          background: `${colors.primary[400]}  !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -119,7 +127,12 @@ const Sidebar = () => {
                   <img
                     width="150px"
                     height="100px"
-                    src="../../assets/default-monochrome.svg"
+                    
+                    src=  {theme.palette.mode === "dark" ? (
+                      "../../assets/defaultMonochromeWhite.svg"
+                    ) : (
+                      "../../assets/defaultMonochrome.svg"
+                    )}
                   />
                   <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcons />
@@ -130,36 +143,39 @@ const Sidebar = () => {
 
             {!isCollapsed && (
               <Box mb="25px">
-                <Box display="flex" justifyContent="center" alignItems="center">
-                  {isPhotoLoading ? (
-                    <Skeleton variant="circular" width={100} height={100} />
-                  ) : (
-                    <>
-                      
+                <Link to={`/user/${currentUser?.id}`} key={`profile`}>
+                  <Box
+                    key={`profile`}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    {isPhotoLoading ? (
+                      <Skeleton variant="circular" width={100} height={100} />
+                    ) : (
                       <img
                         alt="profile-user"
                         width="100px"
                         height="100px"
-                        src={ photoUrl }
+                        src={photoUrl}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                       />
-                      <Link to={`/user/${currentUser?.id}`} />
-                    </>
-                  )}
-                </Box>
-                <Box textAlign="center" m="0 10%">
-                  <Typography
-                    variant="h2"
-                    color={colors.grey[100]}
-                    fontWeight="bold"
-                    sx={{ m: "10px 0 0 0" }}
-                  >
-                    {isRespLoading ? <Skeleton /> : currentUser?.username}
-                  </Typography>
-                  <Typography variant="h5" color={colors.greenAccent[500]}>
-                    {isRespLoading ? <Skeleton /> : currentUser?.email}
-                  </Typography>
-                </Box>
+                    )}
+                  </Box>
+                  <Box textAlign="center" m="0 10%">
+                    <Typography
+                      variant="h2"
+                      color={colors.grey[100]}
+                      fontWeight="bold"
+                      sx={{ m: "10px 0 0 0" }}
+                    >
+                      {isRespLoading ? <Skeleton /> : currentUser?.username}
+                    </Typography>
+                    <Typography variant="h5" color={colors.greenAccent[500]}>
+                      {isRespLoading ? <Skeleton /> : currentUser?.email}
+                    </Typography>
+                  </Box>
+                </Link>
               </Box>
             )}
 

@@ -4,7 +4,7 @@ import { ColorModeContext, tokens } from "../../theme";
 import { InputBase } from "@mui/material";
 import LightModeOutlinedIcons from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcons from "@mui/icons-material/DarkModeOutlined";
-import PersonOutlinedIcons from "@mui/icons-material/PersonOutlined";
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import SearchIcon from "@mui/icons-material/Search";
 import { axiosPrivate } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -92,6 +92,16 @@ const Navbar = () => {
 
       {/* {Icons} */}
       <Box display="flex">
+      
+        <Select
+          value={i18n.language}
+          onChange={handleLanguageChange}
+          sx={{ ml: 2, mr: 2 }}
+        >
+          <MenuItem value="en">EN</MenuItem>
+          <MenuItem value="ru">RU</MenuItem>
+          <MenuItem value="kz">KZ</MenuItem>
+        </Select>
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcons />
@@ -99,17 +109,8 @@ const Navbar = () => {
             <LightModeOutlinedIcons />
           )}
         </IconButton>
-        <Select
-          value={i18n.language}
-          onChange={handleLanguageChange}
-          sx={{ ml: 2 }}
-        >
-          <MenuItem value="en">EN</MenuItem>
-          <MenuItem value="ru">RU</MenuItem>
-          <MenuItem value="kz">KZ</MenuItem>
-        </Select>
         <IconButton onClick={handleSubmit}>
-          <PersonOutlinedIcons />
+          <ExitToAppOutlinedIcon />
         </IconButton>
       </Box>
     </Box>

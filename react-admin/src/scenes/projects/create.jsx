@@ -21,9 +21,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { TASK_PRIORITY, TASK_STATUS, TASK_TYPE } from "../../data/dataTypes";
 import { CREATE_PROJECTS_URL } from "../../api/apiUrls";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 const CREATE_TASK_URL = "/task/create";
 
 const Create = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [info, setInfo] = useState(null);
   const [isDataFetched, setIsDataFetched] = useState(false);
 
@@ -75,7 +79,7 @@ const Create = () => {
     transform: "translate(-50%, -50%)",
     maxWidth: "70%",
     minWidth: 600,
-    backgroundColor: "white",
+    backgroundColor: colors.primary[500],
     borderRadius: 5,
     boxShadow: 24,
     padding: "2% 5%",

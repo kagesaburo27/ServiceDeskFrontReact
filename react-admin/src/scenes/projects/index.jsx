@@ -90,7 +90,7 @@ const Projects = () => {
               width: "30%",
               cursor: "pointer",
               "&:hover": {
-                backgroundColor: colors.primary[100],
+                backgroundColor: colors.primary[200],
               },
               backgroundColor: colors.primary[300],
               borderColor: colors.grey[800],
@@ -117,7 +117,7 @@ const Projects = () => {
               }}
               alignItems="center"
             >
-              <Typography sx={{ color: colors.primary[100] }} variant="h4">
+              <Typography sx={{ color: colors.primary[100] }} variant="h2">
                 {project.title}
               </Typography>
             </Box>
@@ -128,8 +128,8 @@ const Projects = () => {
               </Typography>
               <Box display="flex" justifyContent="space-between" mt={1}>
                 <Typography
-                  variant="body2"
-                  sx={{ color: colors.textPrimary[300] }}
+                  variant="h4"
+                  sx={{ color: colors.textPrimary[100] }}
                 >
                   Admin: {project.admin.username}
                 </Typography>

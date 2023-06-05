@@ -15,6 +15,7 @@ const ReadmeComponent = () => {
           "https://raw.githubusercontent.com/saylord/service-desk/master/README.md"
         );
         setReadmeContent(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log("Error fetching README:", error);
       }
@@ -23,6 +24,10 @@ const ReadmeComponent = () => {
     fetchReadme();
   }, []);
 
-  return <ReactMarkdown remarkPlugins={[gfm]}>{readmeContent}</ReactMarkdown>;
+  return (
+    <Box >
+      <ReactMarkdown remarkPlugins={[gfm]}>{readmeContent}</ReactMarkdown>
+    </Box>
+  );
 };
 export default ReadmeComponent;

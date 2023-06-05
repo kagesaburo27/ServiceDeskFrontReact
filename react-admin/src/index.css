@@ -40,8 +40,9 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
-
 
 .login-box {
   backdrop-filter: blur( 10px );

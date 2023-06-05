@@ -24,11 +24,15 @@ import ReactQuill from "react-quill";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { useTheme } from "@emotion/react";
+import { tokens } from "../../theme";
 const CREATE_TASK_URL = "/task/create";
 
 const Create = () => {
   const [assignees, setAssignees] = useState([]);
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const [alert, setAlert] = useState();
   const [isAssigneesLoading, setIsAssigneesLoading] = useState(false);
   const [selectedProjectId, setSelectedProjectId] = useState(null);
@@ -172,7 +176,7 @@ const Create = () => {
     transform: "translate(-50%, -50%)",
     maxWidth: "70%",
     minWidth: 600,
-    backgroundColor: "white",
+    backgroundColor: colors.primary[500],
     borderRadius: 5,
     boxShadow: 24,
     padding: "2% 5%",
