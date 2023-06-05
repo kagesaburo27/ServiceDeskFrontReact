@@ -35,6 +35,10 @@ const Navbar = () => {
     }
   }, [location.state]);
   const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      // Empty search query, do nothing
+      return;
+    }
     try {
       const response = await axiosPrivate.get(`/statistics/search?query=${searchQuery}`);
       const searchResults = response.data;
