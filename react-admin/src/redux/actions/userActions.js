@@ -6,6 +6,7 @@ export const SET_USER = "SET_USER";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const EDIT_USER = "EDIT_USER";
 export const SET_AVATAR = "SET_AVATAR";
+export const GET_AVATAR = "GET_AVATAR";
 
 // Action creators
 export const setUser = (user) => ({
@@ -27,6 +28,17 @@ export const setAvatar = (avatarUrl) => ({
   type: SET_AVATAR,
   payload: avatarUrl,
 });
+export const getAvatar = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(CURRENT_USER_IMAGE_URL);
+      dispatch(setAvatar(response.data));
+    } catch (error) {
+      // Handle error
+    }
+  };
+};
+
 
 // Async action creator to get user data
 export const getUser = (userId) => {

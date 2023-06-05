@@ -22,7 +22,7 @@ import { Skeleton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Loading from "../../components/reusable/loading/Loading";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentUser, setAvatar } from "../../redux/actions/userActions";
+import { setCurrentUser, getAvatar } from "../../redux/actions/userActions";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -57,11 +57,6 @@ const Sidebar = () => {
       dispatch(setCurrentUser(resp));
     }
   }, [resp, dispatch]);
-  // useEffect(() => {
-  //   if (photo) {
-  //     dispatch(setAvatar(photo.url));
-  //   }
-  // }, [photo, dispatch]);
   const { currentUser, avatarUrl } = useSelector((state) => state.user);
   useEffect(() => {
     if (avatarUrl) {
