@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
+
 import { formatDate } from "@fullcalendar/core";
+
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import moment from "moment";
+import 'primeicons/primeicons.css';
+
 import {
   Box,
   List,
@@ -22,18 +26,19 @@ import { CURRENT_USER_URL, TASKS_URL } from "../../api/apiUrls";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../components/reusable/loading/Loading";
 
-import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { data: currentUser, isLoading: isUserLoading } =
-  useDataFetching(CURRENT_USER_URL); // Assuming the currently logged-in user is available
+    useDataFetching(CURRENT_USER_URL); // Assuming the currently logged-in user is available
 
   const [currentEvents, setCurrentEvents] = useState([]);
-  const { data: deadlines, isLoading: isLoading } = useDataFetching(`assignee/assignedtasks/${currentUser.id}`);
+  const { data: deadlines, isLoading } = useDataFetching(
+    `assignee/assignedtasks/${currentUser.id}`
+  );
   const [formattedEvents, setFormattedEvents] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (deadlines.length > 0) {
       const formattedEvents = deadlines.map((task) => ({
@@ -44,6 +49,7 @@ const Calendar = () => {
       setFormattedEvents(formattedEvents);
     }
   }, [deadlines]);
+
   useEffect(() => {
     if (deadlines.length > 0) {
       const formattedEvents = deadlines.map((task) => ({
@@ -53,15 +59,16 @@ const Calendar = () => {
       }));
       setCurrentEvents(formattedEvents);
     }
-    console.log(currentEvents);
   }, [deadlines]);
 
   const handleEventClick = (selected) => {
     navigate(`/issue/${selected.event.id}`);
   };
+
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <Box m="20px">
       <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
@@ -117,12 +124,19 @@ const Calendar = () => {
               listPlugin,
             ]}
             headerToolbar={{
-              left: "today prev,next",
+              start: "today prev,next",
               center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+              end: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
             }}
             initialView="dayGridMonth"
             selectMirror={true}
+            themeSystem="standard"
+            eventContent={({ event }) => (
+              <div
+                data-testid="fc-icon-chevron-left"
+                className="fc-icon fc-icon-chevron-left"
+              ></div>
+            )}
             dayMaxEvents={true}
             eventClick={handleEventClick}
             events={formattedEvents}

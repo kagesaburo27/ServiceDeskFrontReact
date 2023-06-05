@@ -86,6 +86,7 @@ const Login = () => {
             backgroundImage: "url('../../assets/bg-white.png')",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
+ 
           }}
           height="100vh"
         >

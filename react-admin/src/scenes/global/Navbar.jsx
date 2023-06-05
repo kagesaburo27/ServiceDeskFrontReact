@@ -4,7 +4,7 @@ import { ColorModeContext, tokens } from "../../theme";
 import { InputBase } from "@mui/material";
 import LightModeOutlinedIcons from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcons from "@mui/icons-material/DarkModeOutlined";
-import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { axiosPrivate } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -40,7 +40,9 @@ const Navbar = () => {
       return;
     }
     try {
-      const response = await axiosPrivate.get(`/statistics/search?query=${searchQuery}`);
+      const response = await axiosPrivate.get(
+        `/statistics/search?query=${searchQuery}`
+      );
       const searchResults = response.data;
 
       navigate(`/search-results/${searchQuery}`, { state: { searchResults } });
@@ -50,8 +52,12 @@ const Navbar = () => {
   };
 
   const handleSubmit = async () => {
+   
     const response = await axiosPrivate.post("/auth/signout", {});
     console.log(response?.data);
+    if (theme.palette.mode === "dark") {
+      colorMode.toggleColorMode();
+    }
     navigate("/login", { state: { from: location }, replace: true });
   };
   return (
@@ -92,7 +98,6 @@ const Navbar = () => {
 
       {/* {Icons} */}
       <Box display="flex">
-      
         <Select
           value={i18n.language}
           onChange={handleLanguageChange}
