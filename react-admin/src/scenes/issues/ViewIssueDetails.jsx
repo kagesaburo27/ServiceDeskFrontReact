@@ -55,8 +55,6 @@ const ViewIssueDetails = () => {
       </IconButton>
     </React.Fragment>
   );
-  // State for storing the selected assignee ID
-  const [selectedAssigneeId, setSelectedAssigneeId] = useState(null);
   const whiteBoxStyle = {
     padding: "20px 30px",
     display: "flex",
@@ -82,7 +80,7 @@ const ViewIssueDetails = () => {
   const fetchFiles = useCallback(async () => {
     try {
       const response = await axiosPrivate.get(`/file/task/${id}`);
-      console.log(response)
+      console.log(response);
       setFiles(response.data);
     } catch (error) {
       console.log(error);
@@ -254,30 +252,34 @@ const ViewIssueDetails = () => {
               <Typography variant="body2">Project: </Typography>
               <Typography variant="h5">{issue?.project?.title}</Typography>
             </ListItem>
-
+{/* 
             <ListItem disableGutters>
               <Typography variant="body2">Sprint: </Typography>
               <Typography variant="h5">{issue?.sprint?.name}</Typography>
-            </ListItem>
+            </ListItem> */}
           </Grid>
         </Box>
       </Box>
       <Box>
         <Typography variant="h2">Files</Typography>
-        {files && files?.map((file) => (
-          <Box key={file.id} display="flex" alignItems="center">
-            <Typography>{file.name}</Typography>
-            <Button
-              variant="outlined"
-              component="a"
-              href={file.url}
-              download
-              sx={{ ml: 1 }}
-            >
-              Download
-            </Button>
-          </Box>
-        ))}
+          {!files.length ? (
+            <Typography variant="body1">There are no files in this task</Typography>
+          ) : (
+          files?.map((file) => (
+            <Box key={file.id} display="flex" alignItems="center">
+              <Typography>{file.name}</Typography>
+              <Button
+                variant="outlined"
+                component="a"
+                href={file.url}
+                download
+                sx={{ ml: 1 }}
+              >
+                Download
+              </Button>
+            </Box>
+          ))
+        )}
       </Box>
       <CommentSection id={id} />
       {/* Delete Assignee Dialog */}

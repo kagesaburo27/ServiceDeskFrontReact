@@ -1,11 +1,9 @@
 import { Box, IconButton, MenuItem, Select, useTheme } from "@mui/material";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import { InputBase } from "@mui/material";
 import LightModeOutlinedIcons from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcons from "@mui/icons-material/DarkModeOutlined";
-import NotificationsOutinedIcons from "@mui/icons-material/NotificationsOutlined";
-import SettingsOutlinedIcons from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcons from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import { axiosPrivate } from "../../api/axios";
@@ -17,18 +15,34 @@ const Navbar = () => {
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
   const handleLanguageChange = (event) => {
     const newLanguage = event.target.value;
     i18n
       .changeLanguage(newLanguage)
-      .then(() => {
-
-      })
+      .then(() => {})
       .catch((error) => {
-
         console.error("Failed to change language:", error);
       });
+  };
+  useEffect(() => {
+    if (location.state?.searchResults) {
+      // Search results are available
+      const { searchResults } = location.state;
+      // Do something with the searchResults
+      console.log(searchResults);
+    }
+  }, [location.state]);
+  const handleSearch = async () => {
+    try {
+      const response = await axiosPrivate.get(`/statistics/search?query=${searchQuery}`);
+      const searchResults = response.data;
+
+      navigate(`/search-results/${searchQuery}`, { state: { searchResults } });
+    } catch (error) {
+      console.error("Failed to perform search:", error);
+    }
   };
 
   const handleSubmit = async () => {
@@ -57,8 +71,17 @@ const Navbar = () => {
         backgroundColor={colors.primary[500]}
         borderRadius="3px"
       >
-        <InputBase sx={{ ml: 2, flex: 1 }} placeholder={t("navbar.search")} />
-        <IconButton type="button" sx={{ p: 1 }}>
+        <InputBase
+          sx={{ ml: 2, flex: 1 }}
+          onChange={(event) => setSearchQuery(event.target.value)}
+          placeholder={t("navbar.search")}
+          onKeyPress={(event) => {
+            if (event.key === "Enter") {
+              handleSearch();
+            }
+          }}
+        />
+        <IconButton onClick={handleSearch} type="button" sx={{ p: 1 }}>
           <SearchIcon />
         </IconButton>
       </Box>

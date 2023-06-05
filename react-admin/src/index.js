@@ -26,6 +26,7 @@ import CreateUser from "./scenes/team/CreateUser";
 import API from "./scenes/API";
 import EditProject from "./scenes/projects/EditProject";
 import EditPage from "./scenes/cabinet/EditPage";
+import SearchResultsPage from "./scenes/global/SearchResultsPage"
 import { Provider } from "react-redux";
 import store from './redux/store/store';
 const ROLES = {
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
             element: <App />,
             children: [
               {
+                path:"/search-results/:query",
+                element: <SearchResultsPage/> 
+              },
+              {
+                
                 path: "profile",
                 element: <UserPage />,
               },

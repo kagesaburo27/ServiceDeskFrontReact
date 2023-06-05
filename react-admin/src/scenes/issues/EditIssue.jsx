@@ -30,7 +30,6 @@ import { fetchIssue } from '../../redux/actions/issueActions';
 
 import { tokens } from "../../theme";
 import Header from "../../components/Header";
-import QuillEditor from "../../components/reusable/QuillEditor";
 
 import { useTranslation } from "react-i18next";
 const Alert = React.forwardRef(function Alert(props, ref) {

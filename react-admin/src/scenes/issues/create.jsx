@@ -24,7 +24,6 @@ import ReactQuill from "react-quill";
 import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import QuillEditor from "../../components/reusable/QuillEditor";
 const CREATE_TASK_URL = "/task/create";
 
 const Create = () => {
@@ -46,7 +45,7 @@ const Create = () => {
     taskPriority: "",
     taskType: "",
     tags: "",
-    file: null, 
+    file: null,
   };
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
@@ -106,16 +105,16 @@ const Create = () => {
     };
     delete updatedValues.assignees;
     const formData = new FormData();
-  for (const key in updatedValues) {
-    if (key === "file") {
-      const files = Array.from(updatedValues[key]);
-      files.forEach((file, index) => {
-        formData.append(`file[${index}]`, file);
-      });
-    } else {
-      formData.append(key, updatedValues[key]);
+    for (const key in updatedValues) {
+      if (key === "file") {
+        const files = Array.from(updatedValues[key]);
+        files.forEach((file, index) => {
+          formData.append(`file[${index}]`, file);
+        });
+      } else {
+        formData.append(key, updatedValues[key]);
+      }
     }
-  }
     try {
       const response = await axiosPrivate.post(CREATE_TASK_URL, formData, {
         headers: {
@@ -195,13 +194,20 @@ const Create = () => {
             error={errors.title?.message}
             inputRef={register}
           />
-          <QuillEditor
+          <ReactQuill
+            theme="snow"
             name="description"
             error={errors.description?.message}
-            value={getValues("description")}
+            value={taskDetails?.description}
             className="quill-editor"
             onChange={(value) => setValue("description", value)}
           />
+          {errors.description && (
+            <Typography variant="body2" color="error">
+              {errors.description.message}
+            </Typography>
+          )}
+
           <FormInput
             label="Tags"
             name="tags"
