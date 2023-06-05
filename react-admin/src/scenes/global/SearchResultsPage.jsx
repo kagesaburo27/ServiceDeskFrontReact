@@ -62,6 +62,9 @@ const SearchResultsPage = () => {
     } else if (type === "user") {
       return `/user/${id}`;
     }
+    else if (type === "project") {
+      return `/project/${id}`;
+    }
     return "/";
   };
   return <Box m="40px"><Typography variant="h2">Search results: {query}</Typography>{renderResultsByType()}</Box>;
