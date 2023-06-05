@@ -1,10 +1,4 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography, useTheme } from "@mui/material";
 import { useEffect } from "react";
 import { tokens } from "../../theme";
 import BarChart from "../../components/datalayer/BarChart";
@@ -21,6 +15,9 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { PROJECTS_URL } from "../../api/apiUrls";
 import SelectForm from "../../components/reusable/SelectForm";
 import { useForm } from "react-hook-form";
+import { saveAs } from "file-saver";
+import exportToExcel from "./exportToExcel";
+import ExcelJS from "exceljs";
 const Statistics = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -55,7 +52,7 @@ const Statistics = () => {
   }, [url, urlAffected]);
   const onSubmit = async (values) => {
     console.log(values);
-    
+
     const st = moment(moment(start)).format("YYYY/MM/DD");
     const en = moment(moment(end)).format("YYYY/MM/DD");
     const selectedProjects = values.projectId;
@@ -66,12 +63,47 @@ const Statistics = () => {
     setApiAddress(url);
     setApiAddressAffected(url2);
   };
+  const handleDownload = () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(
+      `Statistics_${start.format("YYYY.MM.DD")}_${end.format("YYYY.MM.DD")}`
+    );
+    worksheet.addRow(["Start Date", start.format("YYYY/MM/DD")]);
+    worksheet.addRow(["End Date", end.format("YYYY/MM/DD")]);
+    worksheet.addRow(["Selected Projects", selectedProjectId.join(", ")]);
+    // Add the data from the bar chart component to the worksheet
+    const chartData = [
+      ...rows, // Existing rows data
+      { name: "users affected", count: affectedCount }, // New row for affected count
+      {
+        name: "total tasks",
+        count: rows.reduce((total, row) => total + row.count, 0),
+      }, // New row for total tasks
+    ];
+
+    worksheet.addRow(["Category", "Count"]); // Add headers
+    chartData.forEach((item) => {
+      worksheet.addRow([item.name, item.count]); // Add data rows
+    });
+
+    // Generate a buffer containing the Excel file data
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      // Create a Blob from the buffer
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      // Save the Blob as a file using file-saver
+      saveAs(blob, `Statistics_${start.format("YYYY.MM.DD")}_${end.format("YYYY.MM.DD")}.xlsx`);
+    });
+  };
+
   useEffect(() => {
     if (data) {
       setRows(data);
     }
   }, [data]);
-  
+
   useEffect(() => {
     if (affected) {
       setAffectedCount(affected);
@@ -84,8 +116,15 @@ const Statistics = () => {
     setValue("projectId", projectId);
   };
   const renderStatusCards = () => {
-    console.log(rows);
-    return rows.map((row) => (
+    return [
+      ...rows, // Existing rows data
+      { id: "users-affected", name: "users affected", count: affectedCount }, // New row for affected count
+      {
+        id: "total-tasks",
+        name: "total tasks",
+        count: rows.reduce((total, row) => total + row.count, 0),
+      }, // New row for total tasks
+    ].map((row) => (
       <Card
         key={row.id}
         sx={{
@@ -104,14 +143,20 @@ const Statistics = () => {
               <Typography variant="h2" align="left">
                 {row.count}
               </Typography>
-              <img
-                src={`../../assets/icons/${row.name}.svg`}
-                height="30px"
-                width="30px"
-              />
+              {row.id !== "users-affected" && row.id !== "total-tasks" && (
+                <img
+                  src={`../../assets/icons/${row.name}.svg`}
+                  height="30px"
+                  width="30px"
+                />
+              )}
             </Box>
             <Typography variant="h5" align="center">
-              TOTAL ISSUES {row.name}
+              {row.id === "users-affected"
+                ? "TOTAL USERS AFFECTED"
+                : row.id === "total-tasks"
+                ? "TOTAL ISSUES"
+                : `TOTAL ISSUES ${row.name}`}
             </Typography>
           </Box>
         </CardContent>
@@ -139,7 +184,6 @@ const Statistics = () => {
                   fullWidth
                   value={start}
                   onChange={(newDate) => setStartDate(moment(newDate))}
-                
                 />
               </LocalizationProvider>
               <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -174,7 +218,17 @@ const Statistics = () => {
           </form>
         </Box>
       </Box>
-
+      <Box display="flex" justifyContent="flex-end" mt={4}>
+        {/* Download button */}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleDownload}
+          disabled={rows.length === 0} // Disable the button if there are no rows
+        >
+          Download
+        </Button>
+      </Box>
       <Box
         display="flex"
         flexWrap="wrap"
@@ -182,30 +236,6 @@ const Statistics = () => {
         alignItems="center"
         mt={4}
       >
-        <Card
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            m: 2,
-            width: "220px",
-            height: "120px",
-            backgroundColor: colors.blueAccent[900],
-          }}
-        >
-          <CardContent>
-            <Box>
-              <Box mb={2} display="flex" justifyContent="space-between">
-                <Typography variant="h2" align="left">
-                {affectedCount}
-                </Typography>
-              </Box>
-              <Typography variant="h5" align="center">
-                TOTAL USERS AFFECTED
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
         {renderStatusCards()}
       </Box>
 

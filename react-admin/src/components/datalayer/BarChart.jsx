@@ -5,6 +5,7 @@ const BarChart = ({ data }) => {
   return (
     <div style={{ height: 400 }}>
       <ResponsiveBar
+        className="chart-svg"
         data={data}
         keys={["count"]}
         indexBy="name"

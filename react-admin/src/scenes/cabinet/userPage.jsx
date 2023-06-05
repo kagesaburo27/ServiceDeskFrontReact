@@ -138,7 +138,7 @@ const UserPage = () => {
               variant="circular"
               width={150}
               height={150}
-              marginRight="20px"
+              marginright="20px"
             />
           ) : (
             <label htmlFor="upload-avatar-input">
