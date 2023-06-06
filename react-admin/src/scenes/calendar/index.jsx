@@ -131,12 +131,7 @@ const Calendar = () => {
             initialView="dayGridMonth"
             selectMirror={true}
             themeSystem="standard"
-            eventContent={({ event }) => (
-              <div
-                data-testid="fc-icon-chevron-left"
-                className="fc-icon fc-icon-chevron-left"
-              ></div>
-            )}
+
             dayMaxEvents={true}
             eventClick={handleEventClick}
             events={formattedEvents}
