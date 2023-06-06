@@ -66,13 +66,6 @@ const Sidebar = () => {
       logoElement.style.fill = colors.grey[100];
     }
   }, [colors.grey]);
-  useEffect(() => {
-    if (avatarUrl) {
-      setPhotoUrl(avatarUrl);
-    } else if (photo?.data) {
-      setPhotoUrl(photo.url); // Set the default avatar URL or any other fallback URL
-    }
-  }, [avatarUrl, photo]);
   return (
     <Box
       sx={{
@@ -157,7 +150,7 @@ const Sidebar = () => {
                         alt="profile-user"
                         width="100px"
                         height="100px"
-                        src={photo}
+                        src={photo?.url}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                       />
                     )}
