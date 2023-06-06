@@ -11,13 +11,11 @@ import Calendar from "./scenes/calendar";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";
 import RequireAuth from "./components/RequireAuth";
-import { CookiesProvider } from "react-cookie";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import ViewIssueDetails from "./scenes/issues/ViewIssueDetails";
 import PersistLogin from "./components/PersistLogin";
 import Statistics from "./scenes/statistics";
-import axios from "./api/axios";
 import UserPage from "./scenes/cabinet/userPage";
 import EditIssue from "./scenes/issues/EditIssue";
 import Projects from "./scenes/projects";
@@ -134,11 +132,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <I18nextProvider i18n={i18n}>
-        <CookiesProvider>
-          <AuthProvider>
+         <AuthProvider>
             <RouterProvider router={router} />
           </AuthProvider>
-        </CookiesProvider>
       </I18nextProvider>
     </Provider>
   </React.StrictMode>

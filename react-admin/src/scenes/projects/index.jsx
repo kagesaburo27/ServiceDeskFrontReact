@@ -24,6 +24,9 @@ const Projects = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const dispatch = useDispatch();
+  const isModerator = currentUser?.roles?.some(
+    (role) => role.name === "MODERATOR"
+  );
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -143,44 +146,46 @@ const Projects = () => {
             </Box>
           </Paper>
         ))}
-        <Paper
-          height="200px"
-          onClick={handleOpen}
-          sx={{
-            opacity: 0.5,
-            m: 2,
-            width: "30%",
-            cursor: "pointer",
-            "&:hover": {
-              backgroundColor: colors.primary[100],
-              opacity: 1,
-            },
-            backgroundColor: colors.blueAccent[800],
-            borderRadius: "30px",
-          }}
-        >
-          <Box
-            display="flex"
-            justifyContent="center"
-            height="100%"
+        {isModerator && (
+          <Paper
+            height="200px"
+            onClick={handleOpen}
             sx={{
-              borderRadius: "30px ",
-              p: 2,
-              backgroundImage: [
-                "linear-gradient(135deg,",
-                colors.primary[1],
-                " 0%,",
-                colors.primary[2],
-                " 100%)",
-              ].join(" "),
+              opacity: 0.5,
+              m: 2,
+              width: "30%",
+              cursor: "pointer",
+              "&:hover": {
+                backgroundColor: colors.primary[100],
+                opacity: 1,
+              },
+              backgroundColor: colors.blueAccent[800],
+              borderRadius: "30px",
             }}
-            alignItems="center"
           >
-            <Typography sx={{ color: colors.primary[100] }} variant="h1">
-              +
-            </Typography>
-          </Box>
-        </Paper>
+            <Box
+              display="flex"
+              justifyContent="center"
+              height="100%"
+              sx={{
+                borderRadius: "30px ",
+                p: 2,
+                backgroundImage: [
+                  "linear-gradient(135deg,",
+                  colors.primary[1],
+                  " 0%,",
+                  colors.primary[2],
+                  " 100%)",
+                ].join(" "),
+              }}
+              alignItems="center"
+            >
+              <Typography sx={{ color: colors.primary[100] }} variant="h1">
+                +
+              </Typography>
+            </Box>
+          </Paper>
+        )}
       </Box>
       <Modal open={open} onClose={handleClose}>
         <Create handleClose={handleClose} />

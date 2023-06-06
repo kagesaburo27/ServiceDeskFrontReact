@@ -135,7 +135,7 @@ const UserPage = () => {
             <label htmlFor="upload-avatar-input">
               <Box sx={{ position: "relative" }}>
                 <Avatar
-                  src={photo?.url}
+                  src={userAvatar?.url}
                   alt="User Avatar"
                   sx={{
                     width: 150,
