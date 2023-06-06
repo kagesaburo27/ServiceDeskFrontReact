@@ -43,18 +43,7 @@ const UserPage = () => {
     { title: "Phone", value: data.phone },
   ];
 
-  useEffect(() => {
-    if (avatarUrl) {
-      console.log("Redux avatar URL:", avatarUrl);
-      setPhotoUrl(avatarUrl);
-    } else if (userAvatar) {
-      console.log("User avatar URL:", userAvatar);
-      setPhotoUrl(userAvatar);
-    } else {
-      console.log("Fallback avatar URL");
-      setPhotoUrl("../../assets/profile.png"); // Set the default avatar URL or any other fallback URL
-    }
-  }, [avatarUrl, userAvatar, isImageLoading]);
+
   const handleAvatarHover = () => {
     setIsHovered(true);
   };
@@ -146,7 +135,7 @@ const UserPage = () => {
             <label htmlFor="upload-avatar-input">
               <Box sx={{ position: "relative" }}>
                 <Avatar
-                  src={photo}
+                  src={photo?.url}
                   alt="User Avatar"
                   sx={{
                     width: 150,
