@@ -157,7 +157,7 @@ const Sidebar = () => {
                         alt="profile-user"
                         width="100px"
                         height="100px"
-                        src={photoUrl}
+                        src={photo}
                         style={{ cursor: "pointer", borderRadius: "50%" }}
                       />
                     )}

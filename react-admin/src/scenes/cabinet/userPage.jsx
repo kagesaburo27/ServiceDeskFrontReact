@@ -9,7 +9,11 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import Loading from "../../components/reusable/loading/Loading";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { getUser, setCurrentUser, setAvatar } from "../../redux/actions/userActions";
+import {
+  getUser,
+  setCurrentUser,
+  setAvatar,
+} from "../../redux/actions/userActions";
 import axios from "../../api/axios";
 import { GET_USER_IMAGE_URL } from "../../api/apiUrls";
 
@@ -19,14 +23,17 @@ const UserPage = () => {
   const colors = tokens(theme.palette.mode);
   const apiAddress = `user/${id}`;
   const { data, isLoading } = useDataFetching(apiAddress);
-  const {userAvatar, isImageLoading} = useDataFetching(`${GET_USER_IMAGE_URL}/${id}`);
+  const { userAvatar, isImageLoading } = useDataFetching(
+    `${GET_USER_IMAGE_URL}/${id}`
+  );
   const [photoUrl, setPhotoUrl] = useState("");
   const { user, currentUser, avatarUrl } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const fileInputRef = useRef(null);
   const isCurrentUser = currentUser && currentUser.id === (user && user.id);
-
+  const { data: photo, isLoading: isPhotoLoading } =
+    useDataFetching("/image/my");
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const profileData = [
@@ -98,7 +105,6 @@ const UserPage = () => {
     dispatch(getUser(id)); // Dispatch the action to get user data
   }, [dispatch, id]);
 
-
   if (isLoading) {
     return <Loading />;
   }
@@ -112,11 +118,7 @@ const UserPage = () => {
           borderRadius: "20px",
         }}
       >
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        <Box display="flex" justifyContent="space-between" alignItems="center">
           <Header title="User" subtitle="Welcome" />
           {isCurrentUser && (
             <IconButton onClick={handleEditButtonClick}>
@@ -144,7 +146,7 @@ const UserPage = () => {
             <label htmlFor="upload-avatar-input">
               <Box sx={{ position: "relative" }}>
                 <Avatar
-                  src={photoUrl}
+                  src={photo}
                   alt="User Avatar"
                   sx={{
                     width: 150,
