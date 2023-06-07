@@ -11,11 +11,8 @@ const ReadmeComponent = () => {
   useEffect(() => {
     const fetchReadme = async () => {
       try {
-        const response = await axios.get(
-          "https://raw.githubusercontent.com/saylord/service-desk/master/README.md"
-        );
+        const response = await axios.get("/README.md");
         setReadmeContent(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log("Error fetching README:", error);
       }
