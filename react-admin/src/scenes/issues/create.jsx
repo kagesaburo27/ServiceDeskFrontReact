@@ -112,13 +112,16 @@ const Create = () => {
     for (const key in updatedValues) {
       if (key === "file") {
         const files = Array.from(updatedValues[key]);
-        files.forEach((file, index) => {
-          formData.append(`file[${index}]`, file);
-        });
+        if (files.length > 0) {
+          files.forEach((file, index) => {
+            formData.append(`file[${index}]`, file);
+          });
+        }
       } else {
         formData.append(key, updatedValues[key]);
       }
     }
+
     try {
       const response = await axiosPrivate.post(CREATE_TASK_URL, formData, {
         headers: {

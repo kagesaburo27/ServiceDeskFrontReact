@@ -24,9 +24,8 @@ const Projects = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const dispatch = useDispatch();
-  const isModerator = currentUser?.roles?.some(
-    (role) => role.name === "MODERATOR"
-  );
+  const currentUser = useSelector((state) => state.team.currentUser);
+  const isModerator = currentUser && currentUser.roles && currentUser.roles.some((role) => role.name === "MODERATOR");
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
